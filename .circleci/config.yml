@@ -89,7 +89,7 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix
+            npm audit fix --force
             npm audit --audit-level=critical
   
   scan-backend:
@@ -97,7 +97,7 @@ jobs:
       # Docker image here
       - image: circleci/node:13.8.0
     steps:
-      # Checkout code from git
+      # Checkout code from gitgit status
       - checkout
       # Restore from cache
       - restore_cache:
@@ -108,7 +108,7 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix
+            npm audit fix --force
             npm audit --audit-level=critical
    
 
