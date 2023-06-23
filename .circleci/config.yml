@@ -14,7 +14,6 @@ commands:
             # Your code here
             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFOW_ID:0:7}
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFOW_ID:0:7}
-            exit 1
 
 jobs:
   build-frontend:
@@ -180,3 +179,8 @@ workflows:
           requires: [build-frontend]
       - scan-backend:
           requires: [build-backend]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filtes:
+            branches:
+              only: [test-feature-branch]
