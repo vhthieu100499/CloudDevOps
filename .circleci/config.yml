@@ -155,6 +155,7 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             # Your code here
+            yum install -y tar gzip
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
       - persist_to_workspace:
           root: ~/
