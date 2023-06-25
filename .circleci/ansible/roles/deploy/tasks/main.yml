@@ -1,11 +1,11 @@
 ---
-- name: extract the zipped artifact
+- name: Extract the zipped artifact
   become: yes
   unarchive:
     src: /root/project/artifact.tar.gz
     dest: .
     
-- name: start the app
+- name: Start the app
   become: yes
   shell: |
     npm install
