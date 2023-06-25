@@ -49,7 +49,7 @@ commands:
             echo $SUCCESS
             if(( $SUCCESS==1 )); 
             then
-              cd backend
+              cd ~/project/backend
               npm install
               npm run migrations:revert
             fi
@@ -291,7 +291,6 @@ jobs:
             # your code here
             cd frontend
             npm install
-            npm update
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
