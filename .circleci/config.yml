@@ -244,7 +244,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-      - restore_cache
+      - restore_cache:
           keys: [frontend-build]
       - run:
           name: Install dependencies
@@ -285,7 +285,7 @@ jobs:
       # attach workspace
       - attach_workspace:
           at: ~/
-      - restore_cache
+      - restore_cache:
           keys: [backend-build]
       - run:
           name: Install dependencies
