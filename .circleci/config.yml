@@ -156,8 +156,8 @@ jobs:
           command: |
             # Your code here
             yum install -y tar gzip
-            echo [all] > inventory.txt
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+            echo [all] > .circleci/ansible/inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> .circleci/ansible/inventory.txt
             cat inventory.txt
       - persist_to_workspace:
           root: ~/
@@ -188,7 +188,8 @@ jobs:
           name: Configure server
           command: |
             # Your code here
-            cd .circleci/ansible
+            cd ~/project/.circleci/ansible
+            cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment 
 
@@ -208,5 +209,6 @@ workflows:
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       - configure-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          requires: [deploy-infrastructure]
       
