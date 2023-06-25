@@ -25,7 +25,7 @@ commands:
           # Add when this will run
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = $(curl "https://kvdb.io/WVA1nJ4d2my66GEV7dprRo/migration_${CIRCLE_WORKFLOW_ID:0:7}")
+            SUCCESS=$(curl --insecure https://kvdb.io/WVA1nJ4d2my66GEV7dprRo/migration_${CIRCLE_WORKFLOW_ID:0:7})
             if(( $SUCCESS==1 )); 
             then
               cd backend
@@ -234,7 +234,7 @@ jobs:
             # Your code here
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl https://kvdb.io/WVA1nJ4d2my66GEV7dprRo/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl https://kvdb.io/WVA1nJ4d2my66GEV7dprRo/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
       # Here's where you will add some code to rollback on failure   
       - destroy-environment
