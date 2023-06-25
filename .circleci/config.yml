@@ -23,9 +23,11 @@ commands:
       - run:
           name: Revert migrations
           # Add when this will run
+          when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS=$(curl --insecure https://kvdb.io/WVA1nJ4d2my66GEV7dprRo/migration_${CIRCLE_WORKFLOW_ID:0:7})
+            echo $SUCCESS
             if(( $SUCCESS==1 )); 
             then
               cd backend
@@ -274,6 +276,7 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       # Here's where you will add some code to rollback on failure 
       - destroy-environment
+      - revert-migrations
   
   deploy-backend:
     docker:
@@ -311,6 +314,7 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure
       - destroy-environment
+      - revert-migrations
 
 workflows:
   default:
