@@ -338,9 +338,6 @@ jobs:
       - run:
           name: Configure Environment variables
           command: |
-            - run:
-          name: Configure server
-          command: |
             export ANSIBLE_HOST_KEY_CHECKING=False
             export RECORD_HOST_KEYS=False
             export ANSIBLE_PARAMIKO_BANNER_TIMEOUT=30
@@ -364,7 +361,7 @@ jobs:
             # your code here
             cd backend
             echo "CONTENT OF backend/.env"      
-            cat .env
+            cat backend/.env
             npm install
             npm run build
             cd ..
