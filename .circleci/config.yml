@@ -2,25 +2,6 @@ version: 2.1
 
 
 commands:
-  # install-dependencies-backend:
-  #   steps:
-  #     - run:
-  #         name: Install tar gzip curl
-  #         command: |
-  #           sudo apt update
-  #           sudo apt install -y tar gzip curl software-properties-common
-  #     - run:
-  #         name: Install aws-cli
-  #         command: |
-  #           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-  #           unzip awscliv2.zip
-  #           sudo ./aws/install
-  #     - run:
-  #         name: Install ansible
-  #         command: |
-  #           sudo add-apt-repository --yes --update ppa:ansible/ansible
-  #           sudo apt install ansible
-
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -362,13 +343,13 @@ jobs:
           command: |
             # your code here
             export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-            export API_URL="http://${BACKEND_IP}:3030/api/status"
+            export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
       - run:
           name: Backend smoke test.
           command: |
             # your code here 
-            if curl ${API_URL} | grep "ok"
+            if curl "${API_URL}/api/status" | grep "ok"
             then 
               return 0
             else
