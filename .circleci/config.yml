@@ -335,9 +335,9 @@ jobs:
           command: |
             # your code here
             apk add curl
+            pip install awscli --upgrade
             apk add nodejs
             apk add npm
-            pip install awscli --upgrade
       - run:
           name: Get backend url
           command: |
@@ -349,7 +349,8 @@ jobs:
           name: Backend smoke test.
           command: |
             # your code here 
-            if curl "${API_URL}/api/status" | grep "ok"
+            echo "${API_URL}/api/status"
+            if curl -s ${API_URL}/api/status | grep "ok"
             then 
               return 0
             else
