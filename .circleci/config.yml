@@ -15,9 +15,9 @@ commands:
           command: |
             # Your code here
             echo "Destroying environment: << parameters.workflow_id >> "
-            aws s3 rm s3://udapeople-frontend-${CIRCLE_WORKFLOW_ID} --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+            aws s3 rm s3://udapeople-frontend-${CIRCLE_WORKFLOW_ID} --recursive
   
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -335,9 +335,8 @@ jobs:
             apk add curl
             pip install awscli --upgrade
       - run:
-          name: Deploy backend
+          name: Configure environment variables
           command: |
-            # your code here
             export ANSIBLE_HOST_KEY_CHECKING=False
             export RECORD_HOST_KEYS=False
             export ANSIBLE_PARAMIKO_BANNER_TIMEOUT=30
@@ -355,10 +354,13 @@ jobs:
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> backend/.env     
             echo "CONTENT OF backend/.env"      
             cat backend/.env
-            
+      - run:
+          name: Deploy backend
+          command: |
+            # your code here
             cd backend
             echo "CONTENT OF backend/.env"      
-            cat backend/.env
+            cat .env
             npm install
             npm run build
             cd ..
