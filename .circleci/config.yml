@@ -335,8 +335,9 @@ jobs:
             apk add curl
             pip install awscli --upgrade
       - run:
-          name: Configure Environment variables
+          name: Deploy backend
           command: |
+            # your code here
             export ANSIBLE_HOST_KEY_CHECKING=False
             export RECORD_HOST_KEYS=False
             export ANSIBLE_PARAMIKO_BANNER_TIMEOUT=30
@@ -354,10 +355,7 @@ jobs:
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> backend/.env     
             echo "CONTENT OF backend/.env"      
             cat backend/.env
-      - run:
-          name: Deploy backend
-          command: |
-            # your code here
+            
             cd backend
             echo "CONTENT OF backend/.env"      
             cat backend/.env
