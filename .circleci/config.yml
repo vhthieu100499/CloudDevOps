@@ -252,6 +252,7 @@ jobs:
           command: |
             # Your code here
             cd backend
+            cat .env
             npm install
             npm run build
             npm run migrations > migrations_dump.txt
@@ -335,12 +336,35 @@ jobs:
             apk add curl
             pip install awscli --upgrade
       - run:
+          name: Configure Environment variables
+          command: |
+            - run:
+          name: Configure server
+          command: |
+            export ANSIBLE_HOST_KEY_CHECKING=False
+            export RECORD_HOST_KEYS=False
+            export ANSIBLE_PARAMIKO_BANNER_TIMEOUT=30
+            echo NODE_ENV=local > backend/.env
+            echo VERSION=1 >> backend/.env
+            echo ENVIRONMENT=production >> backend/.env
+            echo TYPEORM_CONNECTION=$TYPEORM_CONNECTION >> backend/.env
+            echo TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR >> backend/.env
+            echo TYPEORM_ENTITIES=$TYPEORM_ENTITIES >> backend/.env
+            echo TYPEORM_PORT=$TYPEORM_PORT >> backend/.env      
+            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> backend/.env
+            echo TYPEORM_HOST=$TYPEORM_HOST >> backend/.env
+            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> backend/.env
+            echo TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS >> backend/.env
+            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> backend/.env     
+            echo "CONTENT OF backend/.env"      
+            cat backend/.env
+      - run:
           name: Deploy backend
           command: |
             # your code here
             cd backend
             echo "CONTENT OF backend/.env"      
-            cat backend/.env
+            cat .env
             npm install
             npm run build
             cd ..
