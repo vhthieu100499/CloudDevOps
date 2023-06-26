@@ -162,10 +162,6 @@ jobs:
       # Checkout code from git
       - checkout
       - run:
-          name: install curl
-          command: |
-            apk add curl
-      - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
@@ -445,7 +441,6 @@ jobs:
           command: |
             # your code here
             echo "Install dependencies"
-
       - run:
           name: Update cloudfront distribution
           command: |
